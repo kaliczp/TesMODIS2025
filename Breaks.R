@@ -66,7 +66,7 @@ m <- QA_r
 m[(QA_r < 0 | QA_r > 1)] <- NA # continue working with QA 0 (good data), and 1 (marginal data)
 
 ## apply the mask to the NDVI raster
-VI_m <- mask(VI_r, m, maskvalue=NA, updatevalue=NA)
+VI_m <- terra::mask(VI_r, m, maskvalue=NA, updatevalue=NA)
 
 ## plot the 4th image (time step)
 plot(m,46) # plot mask
@@ -80,14 +80,6 @@ for(tti in 51:54)
 par(mfrow=c(4,3), mar=c(0,0,0,0))
 for(tti in 51:62)
     plot(VI_r,tti)
-
-## clean the data
-# create mask on pixel reliability flag set all values <0 or >1 NA
-m <- QA_r
-m[(QA_r < 0 | QA_r > 0)] <- NA # continue working with only QA 0 (good data). We set the values above and below 0 to NA.
-
-# apply the mask to the NDVI raster
-VI_m <- mask(VI_r, m, maskvalue=NA, updatevalue=NA)
 
 # plot the 10th image (time step)
 plot(m,46) # plot mask
