@@ -112,7 +112,7 @@ breaks <- bfastlite(tspx, response ~ trend + harmon, order = 3, breaks = "BIC")
 breaks
 
 ## Different pixel
-px <- 32
+px <- 28
 tspx <- timeser(unlist(VI_m[px]),as.Date(names(VI_m), "%Y-%m-%d"))
 breaks <- bfastlite(tspx, response ~ trend + harmon, order = 3, breaks = "BIC")
 #breaks <- bfastlite(tspx, response ~ trend, order = 3, breaks = "BIC")
@@ -152,5 +152,10 @@ bflRaster <- function(pixels, dates, timeser, IndexToDate) {
 
 # This will take a while: BFAST Lite is not as fast as BFAST Monitor.
 system.time({
-bflR <- app(VI_m, bflRaster, dates=as.Date(names(VI_m), "%Y-%m-%d"), timeser=timeser, IndexToDate=IndexToDate)
+bflR <- app(VI_m, bflRaster, dates=as.Date(names(VI_m), "%Y-%m-%d"), timeser=timeser, IndexToDate=IndexToDate, cores = 4)
 })
+
+names(bflR) <- c('time of break', 'magnitude of change')
+par(mfrow = c(1,2))
+plot(bflR$`time of break`)
+plot(bflR$`magnitude of change`)
