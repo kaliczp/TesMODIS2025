@@ -51,3 +51,28 @@ QA_Tes <- mt_subset(product = "MOD13Q1",
 save(VI_Tes, file = "VI_Tes.RData")
 save(QA_Tes, file = "QA_Tes.RData")
 
+
+# convert df to raster
+VI_r <- mt_to_terra(df = VI_Tes)
+QA_r <- mt_to_terra(df = QA_Tes)
+
+## clean the data
+## create mask on pixel reliability flag set all values <0 or >1 NA
+m <- QA_r
+m[(QA_r < 0 | QA_r > 1)] <- NA # continue working with QA 0 (good data), and 1 (marginal data)
+
+## apply the mask to the NDVI raster
+VI_m <- mask(VI_r, m, maskvalue=NA, updatevalue=NA)
+
+## plot the 4th image (time step)
+plot(m,46) # plot mask
+
+## more masks
+par(mfrow=c(2,2))
+for(tti in 51:54)
+    plot(m,tti)
+
+## more VI
+par(mfrow=c(4,3), mar=c(0,0,0,0))
+for(tti in 51:62)
+    plot(VI_r,tti)
