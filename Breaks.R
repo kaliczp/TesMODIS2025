@@ -76,3 +76,27 @@ for(tti in 51:54)
 par(mfrow=c(4,3), mar=c(0,0,0,0))
 for(tti in 51:62)
     plot(VI_r,tti)
+
+## clean the data
+# create mask on pixel reliability flag set all values <0 or >1 NA
+m <- QA_r
+m[(QA_r < 0 | QA_r > 0)] <- NA # continue working with only QA 0 (good data). We set the values above and below 0 to NA.
+
+# apply the mask to the NDVI raster
+VI_m <- mask(VI_r, m, maskvalue=NA, updatevalue=NA)
+
+# plot the 10th image (time step)
+plot(m,46) # plot mask
+plot(VI_m,46) # plot cleaned NDVI raster
+
+## Map with leaflet
+library(leaflet)
+r <- raster(VI_m[[3]]) # Select only the third layer (as a RasterLayer)
+pal <- colorNumeric(c("#ffffff", "#4dff88", "#004d1a"), values(r),  na.color = "transparent")
+
+map <- leaflet() %>% addTiles() %>%
+  addRasterImage(r, colors = pal, opacity = 0.8) %>%
+  addLegend(pal = pal, values = values(r),
+    title = "NDVI")
+
+map
