@@ -1,3 +1,4 @@
+## cp -p ~/Oktatás/diploma/ÁgostonÁlmosPál/TesMODIS2025/*Tes*
 ## A szükséges csomagok telepítése vagy frissítése és betöltése
 packagesToInstall <- c("zoo", "bfast", "terra", "raster", "leaflet", "MODISTools", "leaflet")
 # install.packages(packagesToInstall)
