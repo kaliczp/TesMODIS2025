@@ -52,8 +52,11 @@ QA_Tes <- mt_subset(product = "MOD13Q1",
 save(VI_Tes, file = "VI_Tes.RData")
 save(QA_Tes, file = "QA_Tes.RData")
 
+## Load
+load("VI_Tes.RData");load("QA_Tes.RData")
 
-# convert df to raster
+
+## convert df to raster
 VI_r <- mt_to_terra(df = VI_Tes)
 QA_r <- mt_to_terra(df = QA_Tes)
 
@@ -100,4 +103,5 @@ map <- leaflet() %>% addTiles() %>%
   addLegend(pal = pal, values = values(r),
     title = "NDVI")
 
-map
+map # open in web browser.
+
