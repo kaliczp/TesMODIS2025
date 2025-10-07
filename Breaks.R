@@ -97,3 +97,60 @@ map <- leaflet() %>% addTiles() %>%
 
 map # open in web browser.
 
+## the dimensions of the raster are: 9x9
+
+px <- 41 # pixel number, estimated based on above map
+tspx <- timeser(unlist(VI_m[px]),as.Date(names(VI_m), "%Y-%m-%d")) # convert pixel "px" to a time series
+plot(tspx, main = 'NDVI') # NDVI time series cleaned using the "reliability information"
+
+## Strict break identification
+breaks <- bfastlite(tspx, response ~ trend + harmon, order = 2, breaks = "LWZ")
+breaks
+
+## Liberal break identification
+breaks <- bfastlite(tspx, response ~ trend + harmon, order = 3, breaks = "BIC")
+breaks
+
+## Different pixel
+px <- 32
+tspx <- timeser(unlist(VI_m[px]),as.Date(names(VI_m), "%Y-%m-%d"))
+breaks <- bfastlite(tspx, response ~ trend + harmon, order = 3, breaks = "BIC")
+#breaks <- bfastlite(tspx, response ~ trend, order = 3, breaks = "BIC")
+breaks ## no breaks at all
+
+### Entire raster
+## Functions
+# The code for getting a date from above, in a function
+# index is which breakpoint to list, tspx is the original time series
+IndexToDate <- function(index, tspx, breaks) {
+  dates.no.na <- as.numeric(time(tspx))
+  dates.no.na[is.na(tspx)] <- NA
+  dates.no.na <- na.omit(dates.no.na)
+  dates.no.na[breaks$breakpoints$breakpoints[index]]
+}
+
+bflRaster <- function(pixels, dates, timeser, IndexToDate) {
+  library(zoo)
+  library(bfast)
+  tspx <- timeser(pixels, dates)
+  breaks <- bfastlite(tspx, response ~ trend + harmon, order = 3, breaks = "BIC")
+
+   #if two breaks are recorded keep the break with the largest magnitude
+  if (length(breaks$breakpoints$breakpoints)>1)
+      breaks$breakpoints$breakpoints<-which.max(breaks$breakpoints$breakpoints)
+
+  # If no break, return NAs
+  if (is.na(breaks$breakpoints$breakpoints))
+    return(c(NA,NA))
+
+  # Get break with highest magnitude
+  mags <- magnitude(breaks$breakpoints)
+  maxMag <- which.max(mags$Mag[,"RMSD"])
+
+  return(c(IndexToDate(maxMag, tspx, breaks), mags$Mag[maxMag, "RMSD"]))
+}
+
+# This will take a while: BFAST Lite is not as fast as BFAST Monitor.
+system.time({
+bflR <- app(VI_m, bflRaster, dates=as.Date(names(VI_m), "%Y-%m-%d"), timeser=timeser, IndexToDate=IndexToDate)
+})
