@@ -11,13 +11,14 @@ for(ido in 2001:2021) {
     par(new = TRUE)
     plot(window(tspx,ido,ido+1),
          xlim = c(ido, ido+1),
-         ylim = c(0.2, 1)
+         ylim = c(0.2, 1),
+         xaxt = "n", xlab = ""
          )
 }
 ido <- 2022
 par(new = TRUE)
 plot(window(tspx,ido,ido+1), lwd = 4, col = "red",
      xlim = c(ido, ido+1),
-         ylim = c(0.2, 1)
-         )
-
+     ylim = c(0.2, 1),
+     xaxt = "n", xlab = ""
+     )
