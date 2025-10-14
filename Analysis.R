@@ -7,10 +7,17 @@ par(mar = c(2.1,4.1,0.2,0.2), las = 1)
 plot(tspx, xlab = "", ylab = "VI") # NDVI time series cleaned using the "reliability information"
 dev.off()
 
-for(ido in 2001:2023) {
+for(ido in 2001:2021) {
     par(new = TRUE)
-    plot(window(tspx,ido,ido+1))
+    plot(window(tspx,ido,ido+1),
+         xlim = c(ido, ido+1),
+         ylim = c(0.2, 1)
+         )
 }
 ido <- 2022
 par(new = TRUE)
-plot(window(tspx,ido,ido+1), lwd = 4, col = "red")
+plot(window(tspx,ido,ido+1), lwd = 4, col = "red",
+     xlim = c(ido, ido+1),
+         ylim = c(0.2, 1)
+         )
+
