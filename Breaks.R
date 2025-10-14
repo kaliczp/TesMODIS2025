@@ -101,24 +101,20 @@ IndexToDate <- function(index, tspx, breaks) {
 }
 
 bflRaster <- function(pixels, dates, timeser, IndexToDate) {
-  library(zoo)
-  library(bfast)
-  tspx <- timeser(pixels, dates)
-  breaks <- bfastlite(tspx, response ~ trend + harmon, order = 3, breaks = "BIC")
-
-   #if two breaks are recorded keep the break with the largest magnitude
-  if (length(breaks$breakpoints$breakpoints)>1)
-      breaks$breakpoints$breakpoints<-which.max(breaks$breakpoints$breakpoints)
-
-  # If no break, return NAs
-  if (is.na(breaks$breakpoints$breakpoints))
-    return(c(NA,NA))
-
-  # Get break with highest magnitude
-  mags <- magnitude(breaks$breakpoints)
-  maxMag <- which.max(mags$Mag[,"RMSD"])
-
-  return(c(IndexToDate(maxMag, tspx, breaks), mags$Mag[maxMag, "RMSD"]))
+    library(zoo)
+    library(bfast)
+    tspx <- timeser(pixels, dates)
+    breaks <- bfastlite(tspx, response ~ trend + harmon, order = 3, breaks = "BIC")
+    ##if two breaks are recorded keep the break with the largest magnitude
+    if (length(breaks$breakpoints$breakpoints)>1)
+        breaks$breakpoints$breakpoints<-which.max(breaks$breakpoints$breakpoints)
+    ## If no break, return NAs
+    if (is.na(breaks$breakpoints$breakpoints))
+        return(c(NA,NA))
+    ## Get break with highest magnitude
+    mags <- magnitude(breaks$breakpoints)
+    maxMag <- which.max(mags$Mag[,"RMSD"])
+    return(c(IndexToDate(maxMag, tspx, breaks), mags$Mag[maxMag, "RMSD"]))
 }
 
 # This will take a while: BFAST Lite is not as fast as BFAST Monitor.
