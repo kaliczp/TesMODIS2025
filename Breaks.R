@@ -1,6 +1,6 @@
 ## cp -p ~/Oktatás/diploma/ÁgostonÁlmosPál/TesMODIS2025/*Tes*
 ## A szükséges csomagok telepítése vagy frissítése és betöltése
-packagesToInstall <- c("zoo", "bfast", "terra", "raster", "leaflet", "MODISTools", "leaflet")
+packagesToInstall <- c("raster","zoo", "bfast", "terra", "leaflet", "MODISTools")
 # install.packages(packagesToInstall)
 for(currpack in 1:length(packagesToInstall))
     library(packagesToInstall[currpack], character.only = TRUE)
@@ -37,7 +37,7 @@ m <- QA_r
 m[(QA_r < 0 | QA_r > 1)] <- NA # continue working with QA 0 (good data), and 1 (marginal data)
 
 ## apply the mask to the NDVI raster
-VI_m <- terra::mask(VI_r, m, maskvalue=NA, updatevalue=NA)
+VI_m <- mask(VI_r, m, maskvalue=NA, updatevalue=NA)
 
 ## plot the 4th image (time step)
 plot(m,46) # plot mask
@@ -52,7 +52,7 @@ par(mfrow=c(4,3), mar=c(0,0,0,0))
 for(tti in 51:62)
     plot(VI_r,tti)
 
-# plot the 10th image (time step)
+# plot the 46th image (time step)
 plot(m,46) # plot mask
 plot(VI_m,46) # plot cleaned NDVI raster
 
