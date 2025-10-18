@@ -23,7 +23,7 @@ ttyear <- 2022
     par(new = TRUE)
     plot.zoo(cumsum(PrecHourly[as.character(ttyear)]),
              ylim = c(0,1200),
-             col = "red", lwd = 2,
+             col = "red", lwd = 4,
              xlab = "", xaxt = "n",
              xaxs = "i", yaxs = "i")
 }
