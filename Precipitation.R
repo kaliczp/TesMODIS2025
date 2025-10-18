@@ -10,3 +10,6 @@ PrecHourly <- xts(TesClimateFull$r,as.POSIXct(as.character(TesClimateFull$Time),
 ## Remove possible NAs
 PrecHourly[PrecHourly < -10] <- NA
 plot(PrecHourly)
+
+ttyear <- 2003
+plot.zoo(cumsum(PrecHourly[as.character(ttyear)]), xaxs = "i")
