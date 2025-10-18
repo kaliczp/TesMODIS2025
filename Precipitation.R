@@ -11,5 +11,19 @@ PrecHourly <- xts(TesClimateFull$r,as.POSIXct(as.character(TesClimateFull$Time),
 PrecHourly[PrecHourly < -10] <- NA
 plot(PrecHourly)
 
-ttyear <- 2003
-plot.zoo(cumsum(PrecHourly[as.character(ttyear)]), xaxs = "i")
+dev.off()
+for(ttyear in 2003:2024) {
+    par(new = TRUE)
+    plot.zoo(cumsum(PrecHourly[as.character(ttyear)]),
+             ylim = c(0,1200),
+             xlab = "", xaxt = "n",
+             xaxs = "i", yaxs = "i")
+}
+ttyear <- 2022
+    par(new = TRUE)
+    plot.zoo(cumsum(PrecHourly[as.character(ttyear)]),
+             ylim = c(0,1200),
+             col = "red", lwd = 2,
+             xlab = "", xaxt = "n",
+             xaxs = "i", yaxs = "i")
+}
