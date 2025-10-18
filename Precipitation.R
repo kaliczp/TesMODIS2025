@@ -10,6 +10,8 @@ PrecHourly <- xts(TesClimateFull$r,as.POSIXct(as.character(TesClimateFull$Time),
 ## Remove possible NAs
 PrecHourly[PrecHourly < -10] <- NA
 plot(PrecHourly)
+save(PrecHourly, file = "PrecHourly.RData")
+load("PrecHourly.RData")
 
 dev.off()
 for(ttyear in 2003:2024) {
