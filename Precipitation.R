@@ -19,11 +19,13 @@ for(ttyear in 2003:2024) {
     plot.zoo(cumsum(PrecHourly[as.character(ttyear)]),
              ylim = c(0,1200),
              xlab = "", xaxt = "n",
+             ylab = "", yaxt = "n",
              xaxs = "i", yaxs = "i")
 }
 TimeForAxis <- ISOdate(2024,1:12,1)
 axis(1, at = TimeForAxis , lab = FALSE)
 axis.POSIXct(1, at = TimeForAxis + 15*24*60*60, format = "%b.", tcl = 0)
+axis(2)
 
 ttyear <- 2022
     par(new = TRUE)
