@@ -9,9 +9,8 @@ par(mar = c(2.1,4.1,0.2,0.2), las = 1)
 plot(tspx, xlab = "", ylab = "VI") # NDVI time series cleaned using the "reliability information"
 dev.off()
 
-dev.off()
-
 ## Összes év vékony feketén
+dev.off()
 for(ido in 2003:2021) {
     par(new = TRUE)
     plot(window(tspx,ido,ido+1),
