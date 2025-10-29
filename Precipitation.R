@@ -34,7 +34,6 @@ ttyear <- 2022
              col = "red", lwd = 4,
              xlab = "", xaxt = "n",
              xaxs = "i", yaxs = "i")
-}
 
 ## For water year
 dev.off()
