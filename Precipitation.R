@@ -48,7 +48,7 @@ for(ttyear in 2002:2023) {
 }
 TimeForAxis <- c(ISOdate(ttyear,11:12,1), ISOdate(ttyear+1,01:11,1))
 axis(1, at = TimeForAxis , lab = FALSE)
-axis.POSIXct(1, at = TimeForAxis + 15*24*60*60, format = "%b.", tcl = 0)
+axis.POSIXct(1, at = TimeForAxis + 15*24*60*60, format = "%b", tcl = 0)
 axis(2)
 
 ttyear <- 2022
