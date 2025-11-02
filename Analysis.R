@@ -19,6 +19,13 @@ for(ido in 2003:2021) {
          xaxt = "n", xlab = "", ylab = ""
          )
 }
+## Hónap tengely
+honap <- ido + seq(1, 23, by = 2)/24
+axis(1, at= c(honap-1/24, ido + 1), labels = FALSE)
+axis(1, at= c(honap), tck = 0,
+     labels = c("jan.", "feb.", "már.", "ápr.", "máj.", "jún",
+                "júl.", "aug.", "szep.", "okt.", "nov.", "dec.")
+     )
 
 ## Az egyes évek az összes évre nyomtatása
 ido <- 2022
